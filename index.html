@@ -286,6 +286,52 @@ group.selectAll('.bubbles')
           <p class="fragment">...</p>
           <p class="fragment"><b>alot</b></p>
         </section>
+        <section>
+          <h2>Scales</h2>
+          <svg id="svg-3"></svg>
+          <pre>
+            <code>
+let colorScale = d3.scaleLinear()
+                    .domain([0, numBubbles])
+                    .range(['red', 'blue'])
+          ....
+          .append('circle')
+          .attrs({
+            fill: (d,i) => colorScale(i),
+            ...
+          })
+            </code>
+          </pre>
+        </section>
+        <section>
+          <h2>Transitions</h2>
+          <svg id="svg-4"></svg>
+          <pre>
+            <code>
+let dir = 1
+function step(){
+  setTimeout(()=>{
+    window.requestAnimationFrame(()=>{
+      nodes.transition()
+      .duration(1000)
+      .delay((d,i) => 50 * i)
+      .attr('cy', () => dir ? '100%' : '0%')
+      dir ^= 1
+      step()
+    })
+  }, 1000)
+}
+step()
+/*
+//  There is probably a better way to do this one
+*/
+            </code>
+          </pre>
+        </section>
+        <section>
+          <h2>Forces</h2>
+          <svg id="svg-5"></svg>
+        </section>
 			</div>
 		</div>
 
