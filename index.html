@@ -1,0 +1,313 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>D3 Talk -- Jamie Skinner</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+          <h1>D3</h1>
+          <p><span class="under">D</span>ata <span class="under">D</span>riven <span class="under">D</span>ocuments</p>
+        </section> <!-- 1 -->
+        <section>
+          <h2>What d3 do?</h2>
+          <p>Essentially all D3 does, is bind data to DOM elements. <br> And then... a bunch of helper methods...</p>
+        </section> <!-- 2 -->
+        <section>
+          <h2>What D3 Aint</h2>
+          <ul>
+            <li>charting library</li>
+            <li>mapping library</li>
+            <li>svg/canvas tool</li>
+            <li>jQuery</li>
+          </ul>
+        </section>
+        <section>
+          <h2>What that mean?</h2>
+          <p>It means that D3 is used to turn Data into <b>Information.</b> <br> It binds Data and Elements, and then gives YOU the responsibility and the freedom to have that data manipulate and change those elements. </p>
+        </section> <!-- 3 -->
+        <section data-background-image="https://media.giphy.com/media/3oz8xXrA14O8P0DzW0/giphy.gif">
+          <h2>Getting Started</h2>
+        </section>
+        <section>
+          <h2>v3 vs v4</h2>
+          <p>Many of the examples you see online will be using v3. The examples you see here will be using v4. Make sure your check which version a sample is using before copying the code. For help converting v3 into v4, check out the documentation concerning the changes here:</p>
+          <a href="https://github.com/d3/d3/blob/master/CHANGES.md">D3 v3/v4 changes</a>
+        </section>
+        <section>
+          <h2>Installing</h2>
+          <pre>
+            <code>
+            $ npm install d3
+            $ npm install d3-selection-multi
+            /*               ^^^^^^^^^^^^^^^
+            //  I personally use this because I think it
+            //  makes my code look neater
+            //  allows me to do this:
+            */
+                  thing.attrs({
+                    prop1: true,
+                    prop2: 12
+                  })
+
+            /* instead of: */
+                 thing.attr('prop1', true)
+                 thing.attr('prop2', 12 )
+            </code>
+          </pre>
+        </section>
+        <section data-background-image="https://media.giphy.com/media/YVPwi7L2izTJS/giphy.gif">
+          <h2>Basics</h2>
+        </section><!-- 4.1 -->
+        <section>
+          <svg id="svg-1"></svg>
+        </section><!-- 4.2 -->
+        <section>
+          <pre>
+            <code>
+let svg = d3.select('svg') // <= similar to jquery
+let circle = svg.append('circle')
+          .attrs({
+            r: 100,
+            fill: 'yellow',
+            cx: '50%',
+            cy: '50%',
+          })
+          .datum({d3: 'cool'})
+            </code>
+          </pre>
+          <ul>
+            <li>You can use <code>.attrs({ ... })</code> to update the attributes of an element.</li>
+            <li>Use <code>.datum({ ... })</code> to append <b>one</b> piece of data</li>
+            <li>Use <code>.data([{ ... }])</code> to append <b>an array</b> of data to <b>multiple</b> elements</li>
+          </ul>
+
+        </section><!-- 4.3 -->
+        <section>
+          <pre>
+            <code>
+  /*
+   In the console
+  ~~~~~~~~~~~~~~~~~~~~~~*/
+
+  let circ = d3.select('circle')
+  circ.datum() // => {d3: 'cool'}
+            </code>
+          </pre>
+        </section><!-- 4.4 -->
+        <section>
+          <h4>What it actually does:</h4>
+          <img src="images/data.png" alt="data.png">
+        </section>
+        <section data-background-image="https://media.giphy.com/media/D3OdaKTGlpTBC/giphy.gif">
+          <h2>More</h2>
+        </section>
+        <section>
+          <svg id="svg-2"></svg>
+        </section>
+        <section>
+          <h2>Creating The Data</h2>
+          <pre>
+            <code>
+let maxSize = 20
+let numBubbles = 50
+
+let data = d3.range(0, numBubbles, 1)
+              .map( (d) => {
+                return {
+                  r: Math.round(Math.random() * maxSize)
+                }
+              })
+/*
+  data ex: => [{ r: 13}, ...]
+*/
+            </code>
+          </pre>
+        </section>
+        <section>
+          <h2>Creating the Changing Number</h2>
+          <pre>
+            <code>
+let value = two.append('text').text('0').attrs({
+  'class':'value',
+  'fill': 'white',
+  'font-size': 100,
+  'x': '10%',
+  'y': '20%',
+})
+
+/*
+ You could have just as easily created a DIV rather than SVG text.
+*/
+            </code>
+          </pre>
+        </section>
+        <section>
+          <h2>Creating the Dots</h2>
+          <pre>
+            <code>
+let colorMultiple = Math.floor(255 / numBubbles)
+let group = svg.append('g').attr('class','bubble-group')
+group.selectAll('.bubbles')
+          .data(data)
+          .enter()
+          .append('circle')
+          .attrs({
+            r: d => d.r,
+            fill: (d,i) => `hsla(${colorMultiple * i}, 50%, 50%, 1)`,
+            cx: (d,i) => (maxSize + 2) * i ,
+            cy: '50%'
+          })
+          .on('mouseenter', (d)=>{
+            value.text(d.r)
+          })
+
+            </code>
+          </pre>
+        </section>
+        <section data-background-image="https://media.giphy.com/media/xUA7aPVMmLU4bqXGow/giphy.gif">
+          <h2>BREAK IT DOWN</h2>
+        </section>
+        <section>
+          <pre>
+            <code>
+// create a svg group
+let group = svg.append('g').attr('class','bubble-group')
+
+/*
+  within that group ... select ALL the things
+  with a class of 'bubbles'
+*/
+group.selectAll('.bubbles')
+            </code>
+          </pre>
+          <p class="fragment">But we just created the group... there is nothing in it... right?!</p>
+          <p class="fragment"><b>True</b></p>
+        </section>
+        <section>
+          <section>
+          <h2>D3's General Update Pattern</h2>
+            <pre>
+              <code>
+  let group = svg.append('g').attr('class','bubble-group')
+  group.selectAll('.bubbles')
+            .data(data)        // }
+            .enter()           // } <= the important bit
+            .append('circle')  // }
+            .attrs({
+              ...
+            })
+              </code>
+            </pre>
+            <p>
+              What d3 does, is it creates an empty selection. You can use <code>.empty()</code> to find that out. It then binds the <b>array</b> of data to that selection using <code>.data(data)</code>. <code>.enter()</code> tells D3: "for every piece of data I have that <b>doesn't</b> have a corresponding element from the selection, create one. Finally, <code>.append('circle')</code> tells D3 what <b>kind</b> of element to append.
+            </p>
+          </section>
+          <section>
+            <h2>Exit Pattern</h2>
+            <p>
+              If your selection wasn't empty, lets say you had 20 elements in it, and only 10 points of data. You could use:
+            </p>
+            <pre>
+              <code>
+group.selectAll('.bubbles')
+            .data(data)
+            .enter()   // <=
+            .append('circle')
+            .attrs({
+              ...
+            })
+            .exit()    // <= the opposite of .enter()
+            .remove()
+
+              </code>
+            </pre>
+            <p>This will get rid of the unneccesary elements on the page.</p>
+          </section>
+        </section>
+        <section>
+          <h2>Dynamic Attributes</h2>
+          <pre>
+            <code>
+          ....
+          .append('circle')
+          .attrs({
+            r: d => d.r,
+            fill: (d,i) => `hsla(${colorMultiple * i}, 50%, 50%, 1)`,
+            cx: (d,i) => (maxSize + 2) * i ,
+            cy: '50%'
+          })
+            </code>
+          </pre>
+          <p>
+            If you pass an attribute a <b>function</b> instead of a static value, D3 will pass that function three arguments.
+          </p>
+          <ul>
+            <li>The data for that respective element (ie {r: value})</li>
+            <li>The index of that respective element in the data set</li>
+            <li>The array of <b>raw</b> elements from the selection</li>
+            <li>The <code>this</code> value is bound to the respective element itself</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Event Listeners</h2>
+          <pre>
+            <code>
+let group = svg.append('g').attr('class','bubble-group')
+group.selectAll('.bubbles')
+          .data(data)
+          .enter()
+          .append('circle')
+          .attrs({
+            ...
+          }).on('mouseenter',()=>{  //
+            value.text(d.r)         // <= adding an event listener
+          })                        //
+
+            </code>
+          </pre>
+        </section>
+        <section>
+          <h2>CONGRATS</h2>
+          <p>
+            With that amount of knowledge you can already be pretty dangerous with d3.
+          </p>
+          <p class="fragment">But there is a lot more...</p>
+          <p class="fragment">like</p>
+          <p class="fragment">...</p>
+          <p class="fragment"><b>alot</b></p>
+        </section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+    <script src="node_modules/d3/build/d3.min.js"></script>
+    <script src="node_modules/d3-selection-multi/build/d3-selection-multi.min.js"></script>
+    <script src="js/app.js"></script>
+	</body>
+</html>
