@@ -137,7 +137,7 @@ let data = d3.range(0, numBubbles, 1)
           <h2>Creating the Changing Number</h2>
           <pre>
             <code>
-let value = two.append('text').text('0').attrs({
+let value = svg.append('text').text('0').attrs({
   'class':'value',
   'fill': 'white',
   'font-size': 100,
@@ -331,6 +331,23 @@ step()
         <section>
           <h2>Forces</h2>
           <svg id="svg-5"></svg>
+          <p>Drag them</p>
+        </section>
+        <section>
+          <h2>MAPS</h2>
+          <div class="err">
+            <p>
+            Due to Chromes scrict security policy, Chrome will not allow you to fetch local files from the file system. Serve this deck over HTTP in order to use this visualization. You can use node's <code>http-server</code> to do this.
+            <pre>
+              <code>
+                npm install -g http-server
+                npm http-server &
+              </code>
+            </pre>
+            </p>
+          </div>
+          <svg id="svg-6"></svg>
+          <p id="country-select">Hover over the map</p>
         </section>
 			</div>
 		</div>
@@ -354,6 +371,10 @@ step()
 		</script>
     <script src="node_modules/d3/build/d3.min.js"></script>
     <script src="node_modules/d3-selection-multi/build/d3-selection-multi.min.js"></script>
+    <script src="node_modules/topojson/dist/topojson.min.js"></script>
     <script src="js/app.js"></script>
+    <script type='text/javascript' id="__bs_script__">//<![CDATA[
+    document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.2.11.0.js'><\/script>".replace("HOST", location.hostname));
+    //]]></script>
 	</body>
 </html>
