@@ -113,7 +113,7 @@ five.attrs({
 })
 draw()
 let sim = d3.forceSimulation()
-            .force("charge", d3.forceManyBody().strength(10))
+            .force("charge", d3.forceManyBody().strength(20))
             .force('collide', d3.forceCollide(d => d.r * 1.5 + 5))
             .force("center", d3.forceCenter(width / 2, h / 2))
             .nodes(data)  // <= important
@@ -164,16 +164,51 @@ function dragended(d) {
 let map = d3.select('#svg-6')
 let mapw = 900
 let maph = 500
-let worldGroup, projection, path, tempworld, graticule;
+let worldGroup, projection, path, graticule, startTime, endTime, timescale, quakeData, quakes;
+
 d3.json("js/world-topo-min.json", (error, world) => {
   if(error) {
     throw new Error("Chrome has strict security permissions and won't allow you to fetch from a local file system. Use `http-server` to serve these files over HTTP to make the map visualization to work.")
     d3.select('.err').style('display', 'block')
   } else {
-    mapSetup(world)
-    tempworld = world
+    d3.csv('js/1.0_month.csv', (error, quakes)=>{
+      mapSetup(world)
+      quakeData = quakes
+      drawQuakes(quakes)
+      initScale(quakes)
+    })
   }
 });
+
+function initScale(quakeData){
+  startTime = d3.min(quakeData, d => new Date(d.time).getTime() )
+  endTime = d3.max(quakeData, d => new Date(d.time).getTime())
+  timescale = d3.scaleLinear()
+                    .domain([0,500])
+                    .range([startTime, endTime])
+  d3.select('#timeslider').on('input', (d) => {
+    let val = parseInt(d3.event.target.value)
+    console.log(val)
+    if(val == 0){
+      quakes.each((d,i,a) => {
+        d3.select(a[i]).style('opacity', 1)
+      })
+    } else {
+      let time = timescale(val)
+      let timeMin = time - 12 * 60*60 * 1000
+      let timeMax = time + 12 * 60*60 * 1000
+      quakes.each((d, i, a)=>{
+        let circ = d3.select(a[i])
+        let quakeTime = new Date(d.time).getTime()
+        if(quakeTime > timeMin && quakeTime < timeMax){
+          circ.style('opacity',1)
+        } else {
+          circ.style('opacity',0)
+        }
+      })
+    }
+  })
+}
 
 function mapSetup(world){
     let latlonlines = map.append('g').attr('class','latlonlines')
@@ -181,7 +216,6 @@ function mapSetup(world){
   graticule = d3.geoGraticule()
                 .step([10,10])
   projection = d3.geoMercator()
-                // .geoOrthographic()
       // .scale(mapw / 2 / Math.PI)
       // .translate([mapw / 1.8, maph / 2])
       // .scale(100)
@@ -219,4 +253,20 @@ function mapSetup(world){
                 'd': path,
                 stroke: 'rgba(255,255,255,0.3)',
               })
+}
+
+
+function drawQuakes(quakeData){
+  map.append('g').attr('class','quakes')
+  let data = quakeData.filter(d => d.mag > 1.5)
+  quakes = map.selectAll('.quakes')
+            .data(data)
+            .enter()
+            .append('circle')
+            .attrs({
+              r: d => Math.abs(d.mag),
+              fill: 'white',
+              cx: d => projection([d.longitude, d.latitude,])[0],
+              cy: d => projection([d.longitude, d.latitude])[1]
+            })
 }
