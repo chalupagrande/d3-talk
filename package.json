@@ -7,7 +7,7 @@
   "main": "js/reveal.js",
   "scripts": {
     "test": "grunt test",
-    "start": "grunt serve"
+    "start": "browser-sync start --files='*.html, js/*.js, css/**/*.css' --server --open='http://localhost:3000'"
   },
   "author": {
     "name": "Hakim El Hattab",
