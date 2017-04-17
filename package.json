@@ -1,22 +1,21 @@
 {
-  "name": "reveal.js",
-  "version": "3.4.1",
-  "description": "The HTML Presentation Framework",
-  "homepage": "http://lab.hakim.se/reveal-js",
-  "subdomain": "revealjs",
-  "main": "js/reveal.js",
+  "name": "d3-talk",
+  "version": "1.0",
+  "description": "D3 Talk - The Basics",
+  "homepage": "localhost:3000",
+  "subdomain": "",
+  "main": "index.html",
   "scripts": {
     "test": "grunt test",
     "start": "browser-sync start --files='*.html, js/*.js, css/**/*.css' --server --open='http://localhost:3000'"
   },
   "author": {
-    "name": "Hakim El Hattab",
-    "email": "hakim.elhattab@gmail.com",
-    "web": "http://hakim.se"
+    "name": "Jamie Skinner",
+    "email": "skinner520@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/hakimel/reveal.js.git"
+    "url": "git:/github.com/ninth-mind/d3-talk"
   },
   "engines": {
     "node": ">=4.0.0"
