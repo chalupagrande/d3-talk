@@ -1,5 +1,3 @@
-
-
 /*
   YOUTUBE
 ~~~~~~~~~~~~~~~~~~~*/
@@ -49,8 +47,6 @@ var tag = document.createElement('script');
   function stopVideo() {
     player.stopVideo();
   }
-
-
 
 
 /*
@@ -349,7 +345,7 @@ let lineYscale = d3.scaleLinear()
 let linefunc = d3.line()
                 .x((d,i)=> lineXscale(i))
                 .y((d)=> lineYscale(d))
-                // .curve(d3.curveCatmullRom.alpha(0.2));
+                .curve(d3.curveCatmullRom.alpha(0.2));
 
 linesvg.append('path')
                   .datum(linedata)

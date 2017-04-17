@@ -140,6 +140,7 @@ let circle = svg.append('circle')
         </section>
         <section>
           <svg id="svg-2"></svg>
+          <p>Hover over the circles to get their radiuses</p>
         </section>
         <section>
           <h2>Creating The Data</h2>
@@ -319,8 +320,8 @@ group.selectAll('.bubbles')
           <pre>
             <code>
 let colorScale = d3.scaleLinear()
-                    .domain([0, numBubbles])
-                    .range(['red', 'blue'])
+                    .domain([0, numBubbles]) // <= what you put in
+                    .range(['red', 'blue'])  // <= what you get out
           ....
           .append('circle')
           .attrs({
@@ -356,7 +357,8 @@ step()
           </pre>
         </section>
         <section>
-          <h2>Lines and Axes</h2>
+          <section>
+            <h2>Lines and Axes</h2>
           <p>HOW LOUD A FART IS <b>vs</b> EMBARRASSMENT</p>
           <svg id="svg-7">
             <defs>
@@ -366,6 +368,24 @@ step()
               </linearGradient>
             </defs>
           </svg>
+          </section>
+          <section>
+            <h2>Example of Scales and Curves</h2>
+            <pre>
+            <code>
+let buffer = 0
+let lineh = 500
+let lineYscale = d3.scaleLinear()
+    .domain([0, 100])
+    .range([lineh - buffer, buffer])
+
+let linefunc = d3.line()
+    .x((d,i)=> lineXscale(i))
+    .y((d)=> lineYscale(d))
+    .curve(d3.curveCatmullRom.alpha(0.2));
+            </code>
+          </pre>
+          </section>
         </section>
         <section>
           <h2>Forces</h2>
@@ -396,6 +416,7 @@ step()
               <li>v3 vs v4</li>
               <li>Sometimes d3 fails silently</li>
               <li><i>this</i> and scope issues</li>
+              <li>Creating D3 Elements WITHOUT appending them to the DOM</li>
             </ul>
           </section>
           <section>
