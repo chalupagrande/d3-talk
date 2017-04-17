@@ -1,3 +1,61 @@
+
+
+/*
+  YOUTUBE
+~~~~~~~~~~~~~~~~~~~*/
+
+var tag = document.createElement('script');
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  // 3. This function creates an <iframe> (and YouTube player)
+  //    after the API code downloads.
+  var player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '500',
+      width: '900',
+      videoId: 'sIlNIVXpIns',
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  // 4. The API will call this function when the video player is ready.
+  function onPlayerReady(event) {
+    // event.target.playVideo();
+    console.log('video ready')
+    //add event listener for player
+    Reveal.addEventListener('slidechanged', (event)=>{
+      if(event.indexh == 1) player.playVideo()
+      else player.stopVideo()
+    })
+  }
+
+  // 5. The API calls this function when the player's state changes.
+  //    The function indicates that when playing a video (state=1),
+  //    the player should play for six seconds and then stop.
+  var done = false;
+  function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING && !done) {
+      setTimeout(stopVideo, 6000);
+      done = true;
+    }
+  }
+  function stopVideo() {
+    player.stopVideo();
+  }
+
+
+
+
+/*
+      GRAPHS
+~~~~~~~~~~~~~~~~~~~*/
 let svgs = d3.selectAll('svg')
 let h = 500
 svgs.attrs({
@@ -270,3 +328,70 @@ function drawQuakes(quakeData){
               cy: d => projection([d.longitude, d.latitude])[1]
             })
 }
+
+
+//Line Graphs
+let linew = 800
+let lineh = 400
+let buffer = 25
+let linesvg = d3.select('#svg-7').attrs({
+  width: linew, 
+  height: lineh
+})
+let linedata = [0, 2, 4, 8, 16, 32, 64, 100, 100,  0, 0]
+let lineXscale = d3.scaleLinear()
+                  .domain([0, 10])
+                  .range([buffer * 2, linew - buffer])
+let lineYscale = d3.scaleLinear()
+                  .domain([0, 100])
+                  .range([lineh - buffer, buffer])
+
+let linefunc = d3.line()
+                .x((d,i)=> lineXscale(i))
+                .y((d)=> lineYscale(d))
+                // .curve(d3.curveCatmullRom.alpha(0.2));
+
+linesvg.append('path')
+                  .datum(linedata)
+                  .attrs({
+                    stroke: 'url(#gradient)',
+                    d: linefunc,
+                    'stroke-width': 3,
+                    fill: 'none'
+                  })
+
+//axis
+linesvg.append('g')
+    .attr('class', 'y-axis')
+    .call(d3.axisLeft(lineYscale))
+    .attrs({
+      transform: `translate(${buffer})`,
+      stroke: 'white'
+    })
+.append('text')
+    .attrs({
+      transform: `rotate(-90)`,
+      fill: 'white',
+      x: -1 * buffer,
+      y: buffer /2,
+      'font-weight': 100,
+      stroke: 'none',
+    }).text('Embarrassment')
+
+linesvg.append('g')
+    .attr('class', 'x-axis')
+    .call(d3.axisBottom(lineXscale))
+    .attrs({
+      transform: `translate(0, ${lineh - buffer})`,
+      stroke: 'white'
+    }).append('text')
+    .attrs({
+      transform: `translate(${buffer * 4.5} -${buffer})`,
+      fill: 'white',
+      x: -1 * buffer,
+      y: buffer /2,
+      'font-weight': 100,
+      stroke: 'none',
+    }).text('Loudness')
+
+
