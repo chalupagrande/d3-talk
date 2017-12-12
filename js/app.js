@@ -350,9 +350,9 @@ let linefunc = d3.line()
 linesvg.append('path')
                   .datum(linedata)
                   .attrs({
-                    stroke: 'url(#gradient)',
+                    stroke: 'url(#gradient2)',
                     d: linefunc,
-                    'stroke-width': 3,
+                    'stroke-width': 5,
                     fill: 'none'
                   })
 
