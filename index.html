@@ -53,8 +53,15 @@
           </section>
         </section> <!-- 3 -->
         <section>
-          <section data-background-image="https://media.giphy.com/media/JW9r0SmMeX0TC/giphy.gif">
+          <section data-background-image="https://media.giphy.com/media/QJvwBSGaoc4eI/giphy.gif">
             <h1>Preface</h1>
+          </section>
+          <section>
+            <h3>D3 uses web standards</h3>
+            <p>
+              This means that you can use D3 to manipulate just about any DOM element. 
+              We will be using SVG. So let's learn a little bit about SVG. 
+            </p>
           </section>
           <section>
             <h2>SVG vs Canvas</h2>
@@ -548,9 +555,28 @@
             </div>
           </section>
           <section>
-            <h2>v3 vs v4</h2>
-            <p>Many of the examples you see online will be using v3. The examples you see here will be using v4. Make sure your check which version a sample is using before copying the code. For help converting v3 into v4, check out the documentation concerning the changes here:</p>
-            <a href="https://github.com/d3/d3/blob/master/CHANGES.md">D3 v3/v4 changes</a>
+            <svg width='100' height='100'>
+              <g class='group' transform='translate(100)'>
+                <circle cx='10%' cy='50%' r='50' fill='yellow'></circle>
+                <ellipse cx='23%' cy='50%' rx='20' ry='100' fill='blue'></ellipse>
+                <rect x='28%' y='40%' width='100' height='100' fill='red'></rect>
+                <path d="M 5 0 L 10 10 L 0 10 Z" fill='green' transform='translate(400 175) scale(12)'></path>
+                <path d="M 5 0 L 10 10 Q5 15 0 10 Z" fill='cyan' transform='translate(550 175) scale(12)'></path>
+              </g>
+            </svg>
+          </section>
+          <section>
+            <pre><code data-trim>
+<svg width='100' height='100'>
+  <g class='group' transform='translate(100)'>
+    <circle cx='10%' cy='50%' r='50' fill='yellow'></circle>
+    <ellipse cx='23%' cy='50%' rx='20' ry='100' fill='blue'></ellipse>
+    <rect x='28%' y='40%' width='100' height='100' fill='red'></rect>
+    <path d="M 5 0 L 10 10 L 0 10 Z" fill='green' transform='translate(400 175) scale(12)'></path>
+    <path d="M 5 0 L 10 10 Q5 15 0 10 Z" fill='cyan' transform='translate(550 175) scale(12)'></path>
+  </g>
+</svg>
+            </code></pre>
           </section>
         </section>
         <section data-background-image="https://media.giphy.com/media/tpAEBGkpWTwbe/giphy.gif">
