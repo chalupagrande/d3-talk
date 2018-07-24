@@ -4,6 +4,8 @@
 ### Viewing the Presentation
 `npm install` then `npm start`
 
+`browser-sync` needs to be install globally: `npm install -g browser-sync`
+
 This will boot a local server to serve the presentation from. Some browsers have strict rules on fetching files from the file system. This is needed for some of the demos. 
 
 This will serve the presentation at `localhost:3000`

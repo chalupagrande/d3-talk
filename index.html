@@ -14,6 +14,49 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
+        <section>
+          <h1>Data Visualization</h1>
+        </section> 
+        <section>
+          <div id="player"></div>
+        </section>
+        <section>
+          <h2>What is Data Visualization</h2>
+          <p>It is simply the visual representation of data</p>
+          <p class="fragment">But, for us... it can be a lot more...</p>
+        </section>
+        <section>
+          <section>
+            <h2>Data Visualization and Design Crash Course</h2>
+          </section>
+          <section>
+            <p>Users of data visualization (paraphrasing from Edward Tufte) are executing particular analytical tasks such as making comparisons or determining causality. The design principle of the data visualization should support the analytical task -- nothing more and certainly nothing less.</p>
+          </section>
+          <section>
+            <ul>
+              <li>Show the data.</li>
+              <li class="fragment">Let the user think about the substance (data) rather than the methodology, technology or design.</li>
+              <li class="fragment">Never distort or contort the data.</li>
+              <li class="fragment">Present many numbers in a small space.</li>
+              <li class="fragment">Make large data sets coherent.</li>
+              <li class="fragment">Encourage the eye to compare different pieces of data.</li>
+              <li class="fragment">Reveal the data at several levels of detail.</li>
+              <li class="fragment">Server a reasonably clear purpose: description, exploration, tabulation.</li>
+              <li class="fragment">Be closely integrated with the statistical and verbal description of a data set.</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Should I use D3 or a different Charting Library?</h2>
+            <ul>
+              <li>Do I have a good familiarity with Web APIs, ES6 and OOP?</li>
+              <li>Do I have lots of time to build a chart from scratch?</li>
+              <li>Do I have a Visual Designer to help with Typography, color, accessibility?</li>
+              <li>Do I need a custom chart with features to be added later? Will the design change?</li>
+              <li>Is my dataset huge or does my chart needs to be fast on the web?</li>
+              <li>Do I need to integrate my chart with a front end framework?</li>
+            </ul>
+          </section>
+        </section>
 				<section>
           <svg id="title">
             <defs>
@@ -26,9 +69,6 @@
           </svg>
           <p><span class="under">D</span>ata <span class="under">D</span>riven <span class="under">D</span>ocuments</p>
         </section> <!-- 1 -->
-        <section>
-          <div id="player"></div>
-        </section>
         <section>
           <h2>What d3 do?</h2>
           <p>Essentially all D3 does, is bind data to DOM elements. <br> And then... a bunch of helper methods and math...</p>
@@ -43,15 +83,9 @@
           </ul>
         </section>
         <section>
-          <section>
-            <h2>What that mean?</h2>
-           <p>It means that D3 is used to turn Data into <b>Information.</b> <br> It binds Data and Elements, and then gives YOU the responsibility and the freedom to have that data manipulate and change those elements. </p>
-          </section>
-          <section>
-            <h2>RANT</h2>
-            <p>We have a responsibility as designers and developers to use these tools to communicate information that is <b>true</b> to the data. Let the data dictate the visualization, not an agenda.</p>
-          </section>
-        </section> <!-- 3 -->
+          <h2>What that mean?</h2>
+          <p>It means that D3 is used to turn Data into <b>Information.</b> <br> It binds Data and Elements, and then gives YOU the responsibility and the freedom to have that data manipulate and change those elements. </p>
+        </section>
         <section>
           <section data-background-image="https://media.giphy.com/media/QJvwBSGaoc4eI/giphy.gif">
             <h1>Preface</h1>
@@ -661,7 +695,7 @@ let circle = svg.append('circle')
           <h1>More</h1>
         </section>
         <section>
-          <svg id="svg-2"></svg>
+          <svg id="svg-2-1"></svg>
           <p>Hover over the circles to get their radiuses</p>
         </section>
         <section>
@@ -781,7 +815,7 @@ group.selectAll('.bubbles')
 
               </code>
             </pre>
-            <p>This will get rid of the unneccesary elements on the page.</p>
+            <p>This will get rid of the unnecessary elements on the page.</p>
           </section>
         </section>
         <section>
@@ -825,6 +859,9 @@ group.selectAll('.bubbles')
 
             </code>
           </pre>
+        </section>
+        <section>
+          <svg id="svg-2-2"></svg>
         </section>
         <section>
           <h2>CONGRATS</h2>
@@ -945,6 +982,7 @@ let linefunc = d3.line()
             <h2>What is wrong with this?</h2>
             <pre>
               <code>
+let linedata = [0,1,2,3,4,5,4,3,2,1,0] // one line, like a ^ 
 let linefunc = d3.line()
                 .x((d,i)=> lineXscale(i))
                 .y((d)=> lineYscale(d))
@@ -999,12 +1037,50 @@ linesvg.append('path')
             </pre>
           </section>
         </section>
+        <section>
+          <section>
+            <h1>D3 and React</h1>
+          </section>
+          <section>
+            <h2>Get DOM access by `ref`</h2>
+            <pre>
+              <code>
+class Visualization extends React.Component {
+  constructor(props){
+    super(props)
+    // this.svg <= added by ref
+    this.setup = this.setup.bind(this)
+    this.w = 500
+    this.h = 500
+  }
+
+  componentDidMount(){
+    this.setup()
+  }
+
+  setup(){
+    console.log(this.svg) // has access to SVG
+  }
+
+  render() {
+    return(
+      <svg ref={n=> this.svg = n} preserveAspectRatio='xMidYMid'viewBox={`0 0 ${this.w} ${this.h}`}></svg>
+    )
+  }
+}
+              </code>
+            </pre>
+          <p>Scroll Down</p>
+          </section>
+        </section>
         <section data-background-image="https://media.giphy.com/media/r4bqGJfzm1N4c/giphy.gif">
           <h1>CAPICHE?!</h1>
         </section>
         <section>
           <h3>Jamie Skinner</h3>
           <a href="https://github.com/ninth-mind">https://github.com/ninth-mind</a>
+          <h3>D.A Anguiano</h3>
+          <a href="https://github.com/dakahn">https://github.com/dakahn</a>
         </section>
 			</div>
 		</div>

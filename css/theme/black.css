@@ -333,3 +333,7 @@ body {
   background-position-y: -100px;
   background-image: url('../../images/RASTER.png')
 }
+
+.bad-classname-cus-im-lazy {
+  font-size: 250px !important;
+}

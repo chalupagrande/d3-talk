@@ -74,39 +74,44 @@ let circle = one.append('circle').attrs({
               })
 
 
-//two
-let two = d3.select('#svg-2')
+              //svg
 let maxSize = 20
 let numBubbles = 50
 let colorMultiple = Math.floor(255 / numBubbles)
-
 let data = d3.range(0,numBubbles,1).map( (d) => {
   return {
     r: Math.round(Math.random() * maxSize)
   }
 })
-//data ex: => [{ r: 13}, ...]
-let value = two.append('text').text('0').attrs({
-  'class':'value',
-  'fill': 'white',
-  'font-size': 100,
-  'x': '10%',
-  'y': '30%',
-})
 
-let group = two.append('g').attr('class','bubble-group')
-group.selectAll('.bubbles')
-          .data(data)
-          .enter()
-          .append('circle')
-          .attrs({
-            r: d => d.r,
-            fill: (d,i) => `hsla(${colorMultiple * i}, 50%, 50%, 1)`,
-            cx: (d,i) => (maxSize + 2) * i ,
-            cy: '50%'
-          }).on('mouseenter', (d)=>{
-            value.text(d.r)
-          })
+drawExample(d3.select('#svg-2-1'))
+drawExample(d3.select('#svg-2-2'))
+
+function drawExample(svg){
+  //data ex: => [{ r: 13}, ...]
+  let value = svg.append('text').text('0').attrs({
+    'class':'value',
+    'fill': 'white',
+    'font-size': 100,
+    'x': '10%',
+    'y': '30%',
+  })
+
+  let group = svg.append('g').attr('class','bubble-group')
+  group.selectAll('.bubbles')
+            .data(data)
+            .enter()
+            .append('circle')
+            .attrs({
+              r: d => d.r,
+              fill: (d,i) => `hsla(${colorMultiple * i}, 50%, 50%, 1)`,
+              cx: (d,i) => (maxSize + 2) * i ,
+              cy: '50%'
+            }).on('mouseenter', (d)=>{
+              value.text(d.r)
+            })
+
+}
 
 //three
 let three = d3.select('#svg-3')
@@ -389,5 +394,3 @@ linesvg.append('g')
       'font-weight': 100,
       stroke: 'none',
     }).text('Loudness')
-
-
